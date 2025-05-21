@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Job Postings - Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00B074;
+      --dark: #2B3940;
+      --light: #EFFDF5;
+      --sidebar: #2B3940;
+      --text-light: #fff;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: var(--light);
+    }
+
+    .sidebar {
+      width: 250px;
+      background: var(--sidebar);
+      color: var(--text-light);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 30px 15px;
+    }
+
+    .sidebar h4 {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .sidebar .nav-link {
+      color: var(--text-light);
+      margin: 10px 0;
+    }
+
+    .sidebar .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 30px;
+    }
+
+    .header-bar {
+      background: linear-gradient(to right, var(--primary), #019460);
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .job-table {
+      margin-top: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    }
+
+    .job-table th, .job-table td {
+      vertical-align: middle;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background-color: #019460;
+      border-color: #019460;
+    }
+
+    .badge i {
+      margin-right: 5px;
+    }
+
+    #searchInput {
+      margin: 20px 0;
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h4>JOB PORTAL</h4>
+    <div class="text-center my-4">
+      <i class="fas fa-user-circle fa-3x"></i>
+      <p class="mt-2 mb-0">ADMIN</p>
+    </div>
+    <nav class="nav flex-column">
+      <a href="adminDashboard.html" class="nav-link"><i class="fas fa-chart-line me-2"></i> Dashboard</a>
+        <a href="joblist.html" class="nav-link"><i class="fas fa-layer-group me-2"></i> Job List</a>
+      <a href="jobCategory.html" class="nav-link"><i class="fas fa-layer-group me-2"></i> Job Category</a>
+      <a href="login.html" class="nav-link"><i class="fas fa-building me-2"></i> Logout</a>
+    </nav>
+  </div>
+
+  <div class="content">
+    <div class="header-bar"><i class="fas fa-briefcase me-2"></i>All Job Postings</div>
+
+    <input type="text" id="searchInput" class="form-control" placeholder="Search by job title or employer email..." onkeyup="filterTable()">
+
+    <table class="table table-bordered job-table" id="jobTable">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Job Title</th>
+          <th>Employer</th>
+          <th>Posted Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Software Engineer</td>
+          <td>hr@designco.bt</td>
+          <td>2025-05-10</td>
+          <td><span class="badge bg-warning text-dark"><i class="fas fa-hourglass-half"></i> Pending</span></td>
+          <td>
+            <button class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i> Approve</button>
+            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i> Reject</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Frontend Developer</td>
+          <td>jobs@brighttech.com</td>
+          <td>2025-05-11</td>
+          <td><span class="badge bg-success"><i class="fas fa-check-circle"></i> Approved</span></td>
+          <td>
+            <button class="btn btn-sm btn-outline-warning"><i class="fas fa-clock"></i> Set Pending</button>
+            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i> Reject</button>
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Receptionist</td>
+          <td>admin@hotelgroup.com</td>
+          <td>2025-05-12</td>
+          <td><span class="badge bg-danger"><i class="fas fa-times-circle"></i> Rejected</span></td>
+          <td>
+            <button class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i> Approve</button>
+            <button class="btn btn-sm btn-outline-warning"><i class="fas fa-clock"></i> Set Pending</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function filterTable() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#jobTable tbody tr");
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? "" : "none";
+      });
+    }
+  </script>
+</body>
+</html>

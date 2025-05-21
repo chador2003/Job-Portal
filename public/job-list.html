@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>JobEntry - Job Portal Website</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="keywords" />
+    <meta content="" name="description" />
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Font Stylesheet -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet" />
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Template Stylesheet -->
+ <link href="css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="container-xxl bg-white p-0">
+      <!-- Spinner Start -->
+      <div
+        id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
+      >
+        <div
+          class="spinner-border text-primary"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <!-- Spinner End -->
+
+      <!-- Navbar End -->
+
+      <!-- 
+        <-- Header End -->
+      <!-- <div class="container-xxl py-5 bg-dark page-header mb-5">
+            <div class="container my-5 pt-5 pb-4">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Job List</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-uppercase">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Job List</li>
+                    </ol>
+                </nav>
+            </div>
+        </div> -->
+      <!-- Navbar Start -->
+      <nav
+        class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0"
+      >
+        <a
+          href="index.html"
+          class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5"
+        >
+          <h1 class="m-0 text-primary">JobPortal</h1>
+        </a>
+        <button
+          type="button"
+          class="navbar-toggler me-4"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="index.html" class="nav-item nav-link">Home</a>
+            <a href="about.html" class="nav-item nav-link">About</a>
+            <a href="job-list.html" class="nav-item nav-link active">Jobs</a>
+            <a href="category.html" class="nav-item nav-link">Job Category</a>
+            <a href="contact.html" class="nav-item nav-link">Contact</a>
+            <a href="login.html" id="authBtn" class="nav-item nav-link">Login</a>
+          </div>
+        </div>
+      </nav>
+      <!-- Navbar End -->
+    
+
+      <!-- Jobs Start -->
+      <div class="container-xxl py-5">
+        <div class="container">
+          <h1 class="text-center mb-5">Job Listing</h1>
+            <!-- Search Button -->
+      <div class="container-fluid bg-primary py-4">
+        <div class="container">
+          <form class="row g-3 align-items-center job-search-form">
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Keyword" />
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option selected>Category</option>
+                <option>Software Development</option>
+                <option>Design</option>
+                <option>Marketing</option>
+                <option>Education</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option selected>Location</option>
+                <option>Thimphu</option>
+                <option>Gelephu</option>
+                <option>Mongar</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option selected>Job Type</option>
+                <option>Full Time</option>
+                <option>Part Time</option>
+                <option>Contract</option>
+                <option>Remote</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-select">
+                <option selected>Salary Range</option>
+                <option>Nu. 10,000 - 20,000</option>
+                <option>Nu. 20,001 - 30,000</option>
+                <option>Nu. 30,001 - 50,000</option>
+                <option>Nu. 50,000+</option>
+              </select>
+            </div>
+            <div class="col-md-1">
+              <button type="submit" class="btn btn-dark w-100">Search</button>
+            </div>
+          </form>
+        </div>
+      </div>
+          <div class="tab-class text-center">
+            <!-- Generate Job Listings -->
+            <script>
+              const jobs = [
+                {
+                  title: "Administrative Assistant",
+                  location: "Phuentsholing",
+                  type: "Contract",
+                  salary: "Nu. 18,000 – 22,000",
+                  date: "01 May, 2025",
+                },
+                {
+                  title: "Sales Person",
+                  location: "Gelephu",
+                  type: "Part Time",
+                  salary: "Nu. 10,000 – 15,000",
+                  date: "28 April, 2025",
+                },
+                {
+                  title: "ICT Technician",
+                  location: "Thimphu",
+                  type: "Full Time",
+                  salary: "Nu. 25,000 – 35,000",
+                  date: "03 May, 2025",
+                },
+                {
+                  title: "Lecturer",
+                  location: "GCIT",
+                  type: "Full Time",
+                  salary: "Nu. 35,000 – 45,000",
+                  date: "05 May, 2025",
+                },
+                {
+                  title: "Software Developer",
+                  location: "TashiCell",
+                  type: "Full Time",
+                  salary: "Nu. 30,000 – 40,000",
+                  date: "04 May, 2025",
+                },
+                {
+                  title: "Digital Marketing Executive",
+                  location: "Thimphu",
+                  type: "Part Time",
+                  salary: "Nu. 20,000 – 25,000",
+                  date: "02 May, 2025",
+                },
+                {
+                  title: "Graphic Designer",
+                  location: "Punakha",
+                  type: "Contract",
+                  salary: "Nu. 15,000 – 20,000",
+                  date: "06 May, 2025",
+                },
+                {
+                  title: "HR Manager",
+                  location: "Paro",
+                  type: "Full Time",
+                  salary: "Nu. 45,000 – 55,000",
+                  date: "07 May, 2025",
+                },
+                {
+                  title: "Content Writer",
+                  location: "Online",
+                  type: "Remote",
+                  salary: "Nu. 12,000 – 18,000",
+                  date: "08 May, 2025",
+                },
+                {
+                  title: "Customer Support",
+                  location: "Phuentsholing",
+                  type: "Full Time",
+                  salary: "Nu. 18,000 – 25,000",
+                  date: "09 May, 2025",
+                },
+                {
+                  title: "Finance Officer",
+                  location: "Thimphu",
+                  type: "Full Time",
+                  salary: "Nu. 30,000 – 38,000",
+                  date: "10 May, 2025",
+                },
+                {
+                  title: "Accountant",
+                  location: "Wangdue",
+                  type: "Full Time",
+                  salary: "Nu. 28,000 – 32,000",
+                  date: "11 May, 2025",
+                },
+                {
+                  title: "Nurse",
+                  location: "Gelephu Hospital",
+                  type: "Full Time",
+                  salary: "Nu. 22,000 – 30,000",
+                  date: "12 May, 2025",
+                },
+                {
+                  title: "Lab Technician",
+                  location: "JDWNRH, Thimphu",
+                  type: "Contract",
+                  salary: "Nu. 18,000 – 24,000",
+                  date: "13 May, 2025",
+                },
+                {
+                  title: "Data Analyst",
+                  location: "Thimphu",
+                  type: "Full Time",
+                  salary: "Nu. 40,000 – 50,000",
+                  date: "14 May, 2025",
+                },
+                {
+                  title: "Research Assistant",
+                  location: "Paro College",
+                  type: "Contract",
+                  salary: "Nu. 25,000 – 30,000",
+                  date: "15 May, 2025",
+                },
+                {
+                  title: "Tour Guide",
+                  location: "Paro",
+                  type: "Seasonal",
+                  salary: "Nu. 12,000 – 20,000",
+                  date: "16 May, 2025",
+                },
+                {
+                  title: "Electrician",
+                  location: "Phuentsholing",
+                  type: "Full Time",
+                  salary: "Nu. 15,000 – 22,000",
+                  date: "17 May, 2025",
+                },
+                {
+                  title: "Plumber",
+                  location: "Samtse",
+                  type: "Full Time",
+                  salary: "Nu. 14,000 – 20,000",
+                  date: "18 May, 2025",
+                },
+                {
+                  title: "Driver",
+                  location: "Thimphu",
+                  type: "Full Time",
+                  salary: "Nu. 13,000 – 18,000",
+                  date: "19 May, 2025",
+                },
+              ];
+
+              document.write(
+                jobs
+                  .map(
+                    (job) => `
+            <div class="job-item p-4 mb-4">
+              <div class="row g-4">
+                <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                  <div class="text-start ps-4">
+                    <h5 class="mb-3">${job.title}</h5>
+                    <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>${job.location}, Bhutan</span>
+                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>${job.type}</span>
+                    <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>${job.salary}</span>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                  <a class="btn btn-primary mb-3" href="job-detail.html">View Details</a>
+                  <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Posted: ${job.date}</small>
+                </div>
+              </div>
+            </div>
+          `
+                  )
+                  .join("")
+              );
+            </script>
+          </div>
+        </div>
+      </div>
+      <!-- Jobs End -->
+      <!-- Pagination Start -->
+      <div class="container">
+        <nav aria-label="Job listing pagination">
+          <ul class="pagination justify-content-center mt-4">
+            <li class="page-item disabled me-2">
+              <a
+                class="page-link custom-pagination"
+                href="#"
+                tabindex="-1"
+                aria-disabled="true"
+                >Previous</a
+              >
+            </li>
+            <li class="page-item me-2">
+              <a class="page-link custom-pagination" href="#">1</a>
+            </li>
+            <li class="page-item me-2">
+              <a class="page-link custom-pagination" href="#">2</a>
+            </li>
+            <li class="page-item me-2">
+              <a class="page-link custom-pagination" href="#">3</a>
+            </li>
+            <li class="page-item me-2">
+              <a class="page-link custom-pagination" href="#">4</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link custom-pagination" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <!-- Pagination End -->
+
+      <footer
+        class="custom-footer"
+        style="
+          background-color: #2b3940;
+          color: #effdf5;
+          padding: 40px 20px;
+          font-family: 'Inter', sans-serif;
+        "
+      >
+        <div
+          class="footer-container"
+          style="
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+          "
+        >
+          <div class="footer-left">
+            <p style="margin-bottom: 15px">
+              <i
+                class="fas fa-map-marker-alt"
+                style="margin-right: 10px; color: #00b074"
+              ></i
+              ><strong>Thimphu, Bhutan</strong>
+            </p>
+            <p style="margin-bottom: 15px">
+              <i
+                class="fas fa-phone-alt"
+                style="margin-right: 10px; color: #00b074"
+              ></i>
+              <strong>+975 12345678</strong>
+            </p>
+            <p style="margin-bottom: 0">
+              <i
+                class="fas fa-envelope"
+                style="margin-right: 10px; color: #00b074"
+              ></i>
+              <a
+                href="mailto:support@company.com"
+                style="color: #00b074; text-decoration: none"
+                >support@company.com</a
+              >
+            </p>
+          </div>
+          <div class="footer-right mt-4 mt-md-0">
+            <h5 style="font-weight: 600; margin-bottom: 10px; color: #ffffff">
+              About the Company
+            </h5>
+            <p style="font-size: 14px; color: #d1d5db; margin-bottom: 15px">
+              We help bridge the gap between talent and opportunity through
+              transparent and direct communication.
+            </p>
+            <div class="social-icons mt-3">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Back to Top -->
+      <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"
+        ><i class="bi bi-arrow-up"></i
+      ></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const authBtn = document.getElementById("authBtn");
+
+    if (!authBtn) return;
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      // User is logged in
+      authBtn.textContent = "Logout";
+      authBtn.href = "#";
+      authBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        window.location.href = "index.html";
+      });
+    } else {
+      // User is not logged in
+      authBtn.textContent = "Login";
+      authBtn.href = "login.html";
+    }
+  });
+</script>
+
+  </body>
+</html>

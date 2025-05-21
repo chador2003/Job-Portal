@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Job Detail - Job Portal</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="img/favicon.ico" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Font Stylesheet -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet" />
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap and Template Styles -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="container-xxl bg-white p-0">
+      <!-- Job Detail Start -->
+      <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+          <div class="row gy-5 gx-4">
+            <div class="col-lg-8">
+              <div class="d-flex align-items-center mb-5">
+                <div class="text-start ps-4">
+                  <h3 class="mb-3">Job Title</h3>
+                  <span class="text-truncate me-3 location-field"
+                    ><i class="fa fa-map-marker-alt text-primary me-2"></i>Location</span
+                  >
+                  <span class="text-truncate me-3 type-field"
+                    ><i class="far fa-clock text-primary me-2"></i>Type</span
+                  >
+                  <span class="text-truncate me-0 salary-field"
+                    ><i class="far fa-money-bill-alt text-primary me-2"></i>Salary</span
+                  >
+                </div>
+              </div>
+
+              <div class="mb-5">
+                <h4 class="mb-3">Job description</h4>
+                <p class="description-field">
+                  Description goes here.
+                </p>
+
+                <h4 class="mb-3">Responsibility</h4>
+                <ul class="list-unstyled responsibility-list"></ul>
+
+                <h4 class="mb-3">Qualifications</h4>
+                <ul class="list-unstyled qualification-list">
+                  <li><i class="fa fa-angle-right text-primary me-2"></i>Custom qualifications if any.</li>
+                </ul>
+              </div>
+
+              <div class="">
+                <h4 class="mb-4">How to Apply</h4>
+                <div class="bg-light rounded p-4">
+                  <p class="mb-2">
+                    <i class="fa fa-envelope text-primary me-2"></i> Please
+                    contact the employer directly through the email provided below.
+                  </p>
+                  <p class="mb-2">
+                    <i class="fa fa-phone-alt text-primary me-2"></i> You may
+                    also call using the official contact number listed in the footer.
+                  </p>
+                  <p class="mb-0">
+                    <strong>Note:</strong> Our platform only lists
+                    opportunities. Applications are handled externally.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="bg-light rounded p-5 mb-4 wow slideInUp job-summary" data-wow-delay="0.1s">
+                <h4 class="mb-4">Job Summary</h4>
+                <!-- Filled dynamically -->
+              </div>
+              <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
+                <h4 class="mb-4">Company Detail</h4>
+                <p class="company-detail m-0">
+                  Company information goes here.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Dynamic Job Detail Script -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const job = JSON.parse(localStorage.getItem("selectedJob") || "{}");
+
+        if (!job.title) {
+          alert("No job data found.");
+          window.location.href = "index.html";
+          return;
+        }
+
+        document.querySelector("h3.mb-3").textContent = job.title;
+        document.querySelector(".location-field").innerHTML = 
+          '<i class="fa fa-map-marker-alt text-primary me-2"></i>' + job.location;
+        document.querySelector(".type-field").innerHTML = 
+          '<i class="far fa-clock text-primary me-2"></i>' + job.type;
+        document.querySelector(".salary-field").innerHTML = 
+          '<i class="far fa-money-bill-alt text-primary me-2"></i>' + job.salary;
+        document.querySelector(".description-field").textContent = job.description;
+
+        document.querySelector(".responsibility-list").innerHTML = job.requirements
+          .split("\n")
+          .map(line => `<li><i class="fa fa-angle-right text-primary me-2"></i>${line}</li>`)
+          .join("");
+
+        document.querySelector(".job-summary").innerHTML = `
+          <h4 class="mb-4">Job Summary</h4>
+          <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: ${new Date(
+            job.createdAt || Date.now()
+          ).toLocaleDateString("en-GB")}</p>
+          <p><i class="fa fa-angle-right text-primary me-2"></i>Vacancy: ${job.vacancy} Position</p>
+          <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: ${job.type}</p>
+          <p><i class="fa fa-angle-right text-primary me-2"></i>Salary: ${job.salary}</p>
+          <p><i class="fa fa-angle-right text-primary me-2"></i>Location: ${job.location}</p>
+          <p class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Deadline: ${job.deadline}</p>
+        `;
+
+        document.querySelector(".company-detail").textContent = job.company;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - JobEntry</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #00b074;
+        --dark: #2b3940;
+        --light: #effdf5;
+        --sidebar: #2b3940;
+        --text-light: #fff;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        background: var(--light);
+      }
+
+      .sidebar {
+        width: 250px;
+        background: var(--sidebar);
+        color: var(--text-light);
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 30px 15px;
+      }
+
+      .sidebar h4 {
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .sidebar .nav-link {
+        color: var(--text-light);
+        margin: 10px 0;
+      }
+
+      .sidebar .nav-link:hover {
+        color: var(--primary);
+      }
+
+      .content {
+        margin-left: 250px;
+        padding: 30px;
+      }
+
+      .card-box {
+        padding: 20px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #4a5652, #7be495);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .card-box i {
+        font-size: 2rem;
+      }
+
+      .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .header-bar {
+        background: linear-gradient(to right, #00b074, #019460);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <h4>JOB PORTAL</h4>
+      <div class="text-center my-4">
+        <i class="fas fa-user-circle fa-3x"></i>
+        <p class="mt-2 mb-0">ADMIN</p>
+      </div>
+      <nav class="nav flex-column">
+        <a href="adminDashboard.html" class="nav-link"
+          ><i class="fas fa-chart-line me-2"></i> Dashboard</a
+        >
+        <a href="joblist.html" class="nav-link"
+          ><i class="fas fa-layer-group me-2"></i> Job List</a
+        >
+        <a href="jobCategory.html" class="nav-link"
+          ><i class="fas fa-layer-group me-2"></i> Job Category</a
+        >
+        <a href="#" id="logoutLink" class="nav-link">
+          <i class="fas fa-building me-2"></i> Logout
+        </a>
+      </nav>
+    </div>
+
+    <div class="content">
+      <div class="header-bar">Dashboard</div>
+
+      <div class="dashboard-cards">
+        <div class="card-box">
+          <div>
+            <h5>Total Job Category</h5>
+            <span id="totalCategories">0</span>
+          </div>
+          <i class="fas fa-book"></i>
+        </div>
+
+        <div class="card-box">
+          <div>
+            <h5>Total Registered Employer</h5>
+            <span id="totalEmployers">0</span>
+          </div>
+          <i class="fas fa-building"></i>
+        </div>
+
+        <div class="card-box">
+          <div>
+            <h5>Total Registered Candidates</h5>
+            <span id="totalCandidates">0</span>
+          </div>
+          <i class="fas fa-users"></i>
+        </div>
+
+        <div class="card-box">
+          <div>
+            <h5>Total Listed Jobs</h5>
+            <span id="totalJobs">0</span>
+          </div>
+          <i class="fas fa-server"></i>
+        </div>
+      </div>
+      <h5 class="mt-5 mb-3">Recent Job Applications</h5>
+      <table class="table table-bordered table-hover bg-white">
+        <thead class="table-light">
+          <tr>
+            <th>Job Title</th>
+            <th>Posted By</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="recentJobsTableBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const token = localStorage.getItem("token");
+
+        // ✅ Redirect to login if not logged in
+        if (!token) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        try {
+          const res = await fetch("http://localhost:5000/api/admin/stats", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            cache: "no-store",
+          });
+
+          if (!res.ok) throw new Error("Failed to fetch admin stats");
+
+          const data = await res.json();
+
+          // Populate the dashboard
+          document.getElementById("totalCategories").textContent =
+            data.totalCategories || 0;
+          document.getElementById("totalEmployers").textContent =
+            data.totalEmployers || 0;
+          document.getElementById("totalCandidates").textContent =
+            data.totalCandidates || 0;
+          document.getElementById("totalJobs").textContent =
+            data.totalJobs || 0;
+        } catch (err) {
+          console.error("Error loading admin stats:", err);
+          alert("Failed to load dashboard statistics.");
+        }
+      });
+
+      // ✅ Logout handler
+      document
+        .getElementById("logoutLink")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          localStorage.removeItem("token");
+          localStorage.removeItem("userRole");
+          window.location.href = "login.html";
+        });
+      // Fetch recent job applications
+      async function loadRecentJobs() {
+        try {
+          const res = await fetch("http://localhost:5000/api/jobs/recent", {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+
+          if (!res.ok) throw new Error("Failed to fetch recent jobs");
+
+          const jobs = await res.json();
+
+          console.log("Recent jobs fetched:", jobs); // ✅ Inspect in console
+
+          const tbody = document.getElementById("recentJobsTableBody");
+          tbody.innerHTML = "";
+
+          jobs.forEach((job) => {
+            const tr = document.createElement("tr");
+            const datePosted = new Date(job.createdAt).toLocaleDateString(
+              "en-GB"
+            );
+
+            const statusBadge =
+              job.status === "approved"
+                ? '<span class="badge bg-success">Approved</span>'
+                : job.status === "rejected"
+                ? '<span class="badge bg-danger">Rejected</span>'
+                : '<span class="badge bg-warning text-dark">Pending</span>';
+
+            const actions =
+              job.status === "pending"
+                ? `
+            <button class="btn btn-sm btn-success me-1" onclick="updateJobStatus('${job._id}', 'approved')">Approve</button>
+            <button class="btn btn-sm btn-danger" onclick="updateJobStatus('${job._id}', 'rejected')">Reject</button>
+          `
+                : "-";
+
+            tr.innerHTML = `
+        <td>${job.title}</td>
+        <td>${job.postedBy?.email || "Unknown"}</td>
+        <td>${datePosted}</td>
+        <td>${statusBadge}</td>
+        <td>${actions}</td>
+      `;
+
+            tbody.appendChild(tr);
+          });
+        } catch (err) {
+          console.error("Error loading recent jobs:", err);
+          alert("Failed to load recent job applications.");
+        }
+      }
+
+      // Approve or Reject job
+      window.updateJobStatus = async function (jobId, newStatus) {
+        try {
+          const res = await fetch(
+            `http://localhost:5000/api/jobs/${jobId}/status`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ status: newStatus }),
+            }
+          );
+
+          if (!res.ok) throw new Error("Status update failed");
+
+          await loadRecentJobs(); // Reload the table
+        } catch (err) {
+          console.error("Status update error:", err);
+          alert("Failed to update job status.");
+        }
+      };
+    </script>
+  </body>
+</html>
