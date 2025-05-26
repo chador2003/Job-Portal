@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const jobSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
@@ -21,6 +20,10 @@ const jobSchema = new mongoose.Schema(
       enum: ["pending", "approved", "rejected"],
       default: "pending",
     },
+    category: {
+      type: String, // If you're storing category name directly
+      required: true,
+    },
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -28,8 +31,8 @@ const jobSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // adds createdAt and updatedAt automatically
+    timestamps: true,
   }
 );
 
-module.exports = mongoose.model("Job", jobSchema, "job_postings");
+module.exports = mongoose.model("Job", jobSchema, "job_postings"); // ✅ this is correct
