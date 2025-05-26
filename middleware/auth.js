@@ -1,18 +1,10 @@
-const jwt = require('jsonwebtoken');
+const express = require('express');
+const router = express.Router();
+const authController = require('../controllers/authController');
+const { protect } = require('../middleware/authMiddleware'); // ✅ Add this
 
-module.exports = (req, res, next) => {
-  const authHeader = req.headers.authorization;
+router.post('/signup', authController.signup);
+router.post('/login', authController.login);
+router.get('/me', protect, authController.getMe); // ✅ Now this works
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  const token = authHeader.split(" ")[1];
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // adds { id, role } to req.user
-    next();
-  } catch (err) {
-    return res.status(401).json({ message: "Invalid or expired token" });
-  }
-};
+module.exports = router;
