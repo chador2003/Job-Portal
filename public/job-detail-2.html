@@ -77,15 +77,12 @@
               </div>
             </div>
 
-            <!-- Stylish Back to Dashboard Button -->
+            <!-- Back to Dashboard Button -->
             <div class="text-center mt-5">
-              <a href="job-list.html"
-                class="btn btn-gradient border-0 shadow px-4 py-2 rounded-pill text-white text-uppercase fw-semibold">
-                <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+              <a href="jobPosterDashboard.html" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
               </a>
             </div>
-
-
           </div>
 
           <div class="col-lg-4">
@@ -113,66 +110,67 @@
   <script src="lib/owlcarousel/owl.carousel.min.js"></script>
   <script src="js/main.js"></script>
   <script>
-    function getQueryParam(name) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(name);
+     function getQueryParam(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+  }
+
+  async function loadJobDetails() {
+    const jobId = new URLSearchParams(window.location.search).get("id");
+    fetch(`http://localhost:5000/api/jobs/${jobId}`);
+
+    if (!jobId) {
+      alert("Job ID missing from URL.");
+      return;
     }
 
-    async function loadJobDetails() {
-      const jobId = getQueryParam("id");
-      if (!jobId) {
-        alert("Job ID missing from URL.");
-        return;
-      }
+    try {
+      const res = await fetch(`http://localhost:5000/api/jobs/${jobId}`);
+      const job = await res.json();
 
-      try {
-        const res = await fetch(`http://localhost:5000/api/jobs/${jobId}`);
-        const job = await res.json();
+      // Update fields
+      document.querySelector("h3.mb-3").textContent = job.title;
+      document.querySelector(".location-field").innerHTML =
+        `<i class="fa fa-map-marker-alt text-primary me-2"></i> ${job.location}`;
+      document.querySelector(".type-field").innerHTML =
+        `<i class="far fa-clock text-primary me-2"></i> ${job.type}`;
+      document.querySelector(".salary-field").innerHTML =
+        `<i class="far fa-money-bill-alt text-primary me-2"></i> ${job.salary}`;
+      document.querySelector(".description-field").textContent = job.description || "No description provided.";
 
-        // Update fields
-        document.querySelector("h3.mb-3").textContent = job.title;
-        document.querySelector(".location-field").innerHTML =
-          `<i class="fa fa-map-marker-alt text-primary me-2"></i> ${job.location}`;
-        document.querySelector(".type-field").innerHTML =
-          `<i class="far fa-clock text-primary me-2"></i> ${job.type}`;
-        document.querySelector(".salary-field").innerHTML =
-          `<i class="far fa-money-bill-alt text-primary me-2"></i> ${job.salary}`;
-        document.querySelector(".description-field").textContent = job.description || "No description provided.";
+      // Responsibilities (assuming job.responsibilities is an array)
+      const respList = document.querySelector(".responsibility-list");
+      respList.innerHTML = "";
+      (job.responsibilities || []).forEach(item => {
+        respList.innerHTML += `<li><i class="fa fa-angle-right text-primary me-2"></i>${item}</li>`;
+      });
 
-        // Responsibilities (assuming job.responsibilities is an array)
-        const respList = document.querySelector(".responsibility-list");
-        respList.innerHTML = "";
-        (job.responsibilities || []).forEach(item => {
-          respList.innerHTML += `<li><i class="fa fa-angle-right text-primary me-2"></i>${item}</li>`;
-        });
+      // Qualifications (assuming job.qualifications is an array)
+      const qualList = document.querySelector(".qualification-list");
+      qualList.innerHTML = "";
+      (job.qualifications || []).forEach(item => {
+        qualList.innerHTML += `<li><i class="fa fa-angle-right text-primary me-2"></i>${item}</li>`;
+      });
 
-        // Qualifications (assuming job.qualifications is an array)
-        const qualList = document.querySelector(".qualification-list");
-        qualList.innerHTML = "";
-        (job.qualifications || []).forEach(item => {
-          qualList.innerHTML += `<li><i class="fa fa-angle-right text-primary me-2"></i>${item}</li>`;
-        });
-
-        // Job Summary (optional fields)
-        document.querySelector(".job-summary").innerHTML += `
+      // Job Summary (optional fields)
+      document.querySelector(".job-summary").innerHTML += `
         <p><i class="fa fa-angle-right text-primary me-2"></i><strong>Posted:</strong> ${new Date(job.createdAt).toLocaleDateString()}</p>
         <p><i class="fa fa-angle-right text-primary me-2"></i><strong>Location:</strong> ${job.location}</p>
         <p><i class="fa fa-angle-right text-primary me-2"></i><strong>Type:</strong> ${job.type}</p>
         <p><i class="fa fa-angle-right text-primary me-2"></i><strong>Salary:</strong> ${job.salary}</p>
       `;
 
-        // Company Detail
-        document.querySelector(".company-detail").textContent =
-          job.company || "No company information provided.";
+      // Company Detail
+      document.querySelector(".company-detail").textContent =
+        job.company || "No company information provided.";
 
-      } catch (err) {
-        console.error("Failed to load job:", err);
-        alert("Unable to fetch job details.");
-      }
+    } catch (err) {
+      console.error("Failed to load job:", err);
+      alert("Unable to fetch job details.");
     }
+  }
 
-    document.addEventListener("DOMContentLoaded", loadJobDetails);
+  document.addEventListener("DOMContentLoaded", loadJobDetails);
   </script>
 </body>
-
 </html>

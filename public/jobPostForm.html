@@ -1,214 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Post a Job - JobPortal</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        background: #f4f6f9;
-        font-family: "Poppins", sans-serif;
-      }
-      .job-post-form {
-        max-width: 700px;
-        margin: 50px auto;
-        background: #fff;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-      }
-      .job-post-form h2 {
-        margin-bottom: 30px;
-        color: #00b074;
-      }
-      .btn-primary {
-        background-color: #00b074;
-        border: none;
-      }
-      .btn-primary:hover {
-        background-color: #019460;
-      }
-      textarea.bullet-input {
-        white-space: pre-wrap;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="job-post-form">
-      <h2>Post a New Job</h2>
-      <form id="postJobForm">
-        <div class="mb-3">
-          <label class="form-label">Job Title</label>
-          <input type="text" class="form-control" id="jobTitle" required />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Company Name</label>
-          <input type="text" class="form-control" id="company" required />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Location</label>
-          <input type="text" class="form-control" id="location" required />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Job Type</label>
-          <select class="form-select" id="type" required>
-            <option value="">Select Type</option>
-            <option>Full Time</option>
-            <option>Part Time</option>
-            <option>Contract</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Salary Range</label>
-          <input
-            type="text"
-            class="form-control"
-            id="salary"
-            placeholder="e.g., Nu. 18,000 – 22,000"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Vacancy</label>
-          <input
-            type="number"
-            class="form-control"
-            id="vacancy"
-            min="1"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Application Deadline</label>
-          <input type="date" class="form-control" id="deadline" required />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Job Description</label>
-          <textarea
-            class="form-control"
-            id="description"
-            rows="4"
-            required
-          ></textarea>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Responsibilities & Qualifications</label>
-          <textarea
-            class="form-control bullet-input"
-            id="requirements"
-            rows="4"
-            required
-          ></textarea>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">How to Apply (Optional)</label>
-          <textarea
-            class="form-control bullet-input"
-            id="howToApply"
-            rows="2"
-          ></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Submit Job</button>
-      </form>
-    </div>
 
-    <script>
-      // Bullet auto-formatting for textarea
-      const bulletHandler = (textarea) => {
-        textarea.addEventListener("keydown", function (e) {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            const cursorPos = this.selectionStart;
-            const before = this.value.substring(0, cursorPos);
-            const after = this.value.substring(cursorPos);
-            const bullet = "\n• ";
-            this.value = before + bullet + after;
-            this.selectionStart = this.selectionEnd = cursorPos + bullet.length;
-          }
-        });
-      };
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post a Job - JobPortal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: #f4f6f9;
+      font-family: "Poppins", sans-serif;
+    }
 
-      document.querySelectorAll(".bullet-input").forEach(bulletHandler);
+    .job-post-form {
+      max-width: 700px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const editingJob = JSON.parse(
-          localStorage.getItem("editingJob") || "null"
-        );
+    .job-post-form h2 {
+      margin-bottom: 30px;
+      color: #00b074;
+    }
 
-        if (editingJob) {
-          // Pre-fill form for editing
-          document.getElementById("jobTitle").value = editingJob.title;
-          document.getElementById("company").value = editingJob.company;
-          document.getElementById("location").value = editingJob.location;
-          document.getElementById("type").value = editingJob.type;
-          document.getElementById("salary").value = editingJob.salary;
-          document.getElementById("vacancy").value = editingJob.vacancy;
-          document.getElementById("deadline").value = editingJob.deadline;
-          document.getElementById("description").value = editingJob.description;
-          document.getElementById("requirements").value =
-            editingJob.requirements;
-          document.getElementById("howToApply").value =
-            editingJob.howToApply || "";
+    .btn-primary {
+      background-color: #00b074;
+      border: none;
+    }
 
-          // Store job ID for PUT request
-          document.getElementById("postJobForm").dataset.editingId =
-            editingJob._id;
+    .btn-primary:hover {
+      background-color: #019460;
+    }
+
+    textarea.bullet-input {
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="job-post-form">
+    <h2>Post a New Job</h2>
+    <form id="postJobForm">
+      <div class="mb-3">
+        <label class="form-label">Job Title</label>
+        <input type="text" class="form-control" id="jobTitle" required />
+      </div>
+      <div class="mb-3">
+        <label for="categorySelect" class="form-label">Job Category</label>
+        <select class="form-select" id="categorySelect" name="category" required>
+          <option value="">-- Select Category --</option>
+          <!-- Categories will be loaded here -->
+        </select>
+      </div>
+
+
+      <div class="mb-3">
+        <label class="form-label">Company Name</label>
+        <input type="text" class="form-control" id="company" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Location</label>
+        <input type="text" class="form-control" id="location" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Job Type</label>
+        <select class="form-select" id="type" required>
+          <option value="">Select Type</option>
+          <option>Full Time</option>
+          <option>Part Time</option>
+          <option>Contract</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Salary Range</label>
+        <input type="text" class="form-control" id="salary" placeholder="e.g., Nu. 18,000 – 22,000" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Vacancy</label>
+        <input type="number" class="form-control" id="vacancy" min="1" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Application Deadline</label>
+        <input type="date" class="form-control" id="deadline" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Job Description</label>
+        <textarea class="form-control" id="description" rows="4" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Responsibilities & Qualifications</label>
+        <textarea class="form-control bullet-input" id="requirements" rows="4" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">How to Apply (Optional)</label>
+        <textarea class="form-control bullet-input" id="howToApply" rows="2"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Submit Job</button>
+    </form>
+  </div>
+
+  <script>
+    // Bullet auto-formatting for textarea
+    const bulletHandler = (textarea) => {
+      textarea.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const cursorPos = this.selectionStart;
+          const before = this.value.substring(0, cursorPos);
+          const after = this.value.substring(cursorPos);
+          const bullet = "\n• ";
+          this.value = before + bullet + after;
+          this.selectionStart = this.selectionEnd = cursorPos + bullet.length;
         }
       });
+    };
 
-      document
-        .getElementById("postJobForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
+    document.querySelectorAll(".bullet-input").forEach(bulletHandler);
 
-          const token = localStorage.getItem("token");
-          if (!token) return alert("Login required to post a job.");
+    document.addEventListener("DOMContentLoaded", () => {
+      const editingJob = JSON.parse(
+        localStorage.getItem("editingJob") || "null"
+      );
 
-          const jobData = {
-            title: document.getElementById("jobTitle").value.trim(),
-            company: document.getElementById("company").value.trim(),
-            location: document.getElementById("location").value.trim(),
-            type: document.getElementById("type").value,
-            salary: document.getElementById("salary").value.trim(),
-            description: document.getElementById("description").value.trim(),
-            requirements: document.getElementById("requirements").value.trim(),
-            howToApply: document.getElementById("howToApply").value.trim(),
-            vacancy: parseInt(document.getElementById("vacancy").value),
-            deadline: document.getElementById("deadline").value,
-          };
+      if (editingJob) {
+        // Pre-fill form
+        document.getElementById("jobTitle").value = editingJob.title;
+        document.getElementById("company").value = editingJob.company;
+        document.getElementById("location").value = editingJob.location;
+        document.getElementById("type").value = editingJob.type;
+        document.getElementById("salary").value = editingJob.salary;
+        document.getElementById("vacancy").value = editingJob.vacancy;
+        document.getElementById("deadline").value = editingJob.deadline;
+        document.getElementById("description").value = editingJob.description;
+        document.getElementById("requirements").value =
+          editingJob.requirements;
+        document.getElementById("howToApply").value =
+          editingJob.howToApply || "";
 
-          const jobId = this.dataset.editingId;
-          const url = jobId
-            ? `http://localhost:5000/api/jobs/${jobId}`
-            : "http://localhost:5000/api/jobs";
-          const method = jobId ? "PUT" : "POST";
+        document.getElementById("postJobForm").dataset.editingId =
+          editingJob._id;
+      }
 
-          try {
-            const res = await fetch(url, {
-              method,
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(jobData),
-            });
+      // ✅ THIS WAS MISSING
+      loadCategoryOptions(); // ✅ call it here to populate the dropdown
+    });
 
-            const data = await res.json();
-            if (res.ok) {
-              alert(jobId ? "✅ Job updated!" : "✅ Job posted successfully!");
-              localStorage.removeItem("editingJob");
-              window.location.href = "jobPosterDashboard.html"; // Redirect to dashboard
-            } else {
-              alert("❌ Error: " + data.message);
-            }
-          } catch (err) {
-            console.error("Job submission error:", err);
-            alert("❌ Server error.");
+    document
+      .getElementById("postJobForm")
+      .addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const token = localStorage.getItem("token");
+        if (!token) return alert("Login required to post a job.");
+        const jobData = {
+          title: document.getElementById("jobTitle").value.trim(),
+          company: document.getElementById("company").value.trim(),
+          location: document.getElementById("location").value.trim(),
+          type: document.getElementById("type").value,
+          salary: document.getElementById("salary").value.trim(),
+          description: document.getElementById("description").value.trim(),
+          requirements: document.getElementById("requirements").value.trim(),
+          howToApply: document.getElementById("howToApply").value.trim(),
+          vacancy: parseInt(document.getElementById("vacancy").value),
+          deadline: document.getElementById("deadline").value,
+          category: document.getElementById("categorySelect").value, // ✅ FIXED LINE
+        };
+
+        const jobId = this.dataset.editingId;
+        const url = jobId
+          ? `http://localhost:5000/api/jobs/${jobId}`
+          : "http://localhost:5000/api/jobs";
+        const method = jobId ? "PUT" : "POST";
+
+        try {
+          const res = await fetch(url, {
+            method,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(jobData),
+          });
+
+          const data = await res.json();
+          if (res.ok) {
+            alert(jobId ? "✅ Job updated!" : "✅ Job posted successfully!");
+            localStorage.removeItem("editingJob");
+            window.location.href = "jobPosterDashboard.html"; // Redirect to dashboard
+          } else {
+            alert("❌ Error: " + data.message);
           }
+        } catch (err) {
+          console.error("Job submission error:", err);
+          alert("❌ Server error.");
+        }
+      });
+    async function loadCategoryOptions() {
+      try {
+        const res = await fetch("http://localhost:5000/api/categories", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
-    </script>
-  </body>
+
+        const categories = await res.json();
+        console.log("✅ API response:", categories);
+
+        if (!Array.isArray(categories)) {
+          throw new Error("Categories is not an array");
+        }
+
+        const select = document.getElementById("categorySelect");
+        categories.forEach((cat) => {
+          const opt = document.createElement("option");
+          opt.value = cat.name;
+          opt.textContent = cat.name;
+          select.appendChild(opt);
+        });
+      } catch (err) {
+        console.error("❌ Failed to load categories", err);
+        alert("Failed to load job categories.");
+      }
+    }
+  </script>
+</body>
+
 </html>

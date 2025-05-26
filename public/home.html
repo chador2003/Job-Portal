@@ -185,86 +185,10 @@
       <!-- Search End -->
 
       <!-- Category Start -->
-      <div class="container-xxl py-5">
-        <div class="container">
-          <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
-            Explore By Category
-          </h1>
-          <div class="row g-4">
-            <!-- Agriculture & Environmental Sciences -->
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-              <a class="cat-item rounded p-4" href="agriculture.html">
-                <i class="fa fa-3x fa-seedling text-primary mb-4"></i>
-                <h6 class="mb-3">Agriculture</h6>
-                <p class="mb-0">10 Vacancy</p>
-              </a>
-            </div>
+      <div class="row g-4" id="categoryContainer">
+  <!-- Categories will be dynamically injected here -->
+</div>
 
-            <!-- Civil Service -->
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-              <a class="cat-item rounded p-4" href="">
-                <i class="fa fa-3x fa-university text-primary mb-4"></i>
-                <h6 class="mb-3">Civil Service</h6>
-                <p class="mb-0">10 Vacancy</p>
-              </a>
-            </div>
-
-            <!-- Construction & Engineering -->
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-              <a class="cat-item rounded p-4" href="">
-                <i class="fa fa-3x fa-hard-hat text-primary mb-4"></i>
-                <h6 class="mb-3">Construction & Engineering</h6>
-                <p class="mb-0">10 Vacancy</p>
-              </a>
-            </div>
-
-            <!-- Finance, Banking & Accounting -->
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-              <a class="cat-item rounded p-4" href="">
-                <i class="fa fa-3x fa-piggy-bank text-primary mb-4"></i>
-                <h6 class="mb-3">Finance, Banking & Accounting</h6>
-                <p class="mb-0">10 Vacancy</p>
-              </a>
-            </div>
-
-            <!-- Healthcare & Medical Services -->
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-              <a class="cat-item rounded p-4" href="">
-                <i class="fa fa-3x fa-user-md text-primary mb-4"></i>
-                <h6 class="mb-3">Healthcare & Medical Services</h6>
-                <p class="mb-0">10 Vacancy</p>
-              </a>
-            </div>
-
-            <!-- ICT & Software Development -->
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-              <a class="cat-item rounded p-4" href="">
-                <i class="fa fa-3x fa-laptop-code text-primary mb-4"></i>
-                <h6 class="mb-3">ICT & Software Development</h6>
-                <p class="mb-0">10 Vacancy</p>
-              </a>
-            </div>
-
-            <!-- Teaching & Education -->
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-              <a class="cat-item rounded p-4" href="">
-                <i class="fa fa-3x fa-book-reader text-primary mb-4"></i>
-                <h6 class="mb-3">Teaching & Education</h6>
-                <p class="mb-0">10 Vacancy</p>
-              </a>
-            </div>
-
-            <!-- Tourism & Hospitality -->
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-              <a class="cat-item rounded p-4" href="">
-                <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
-                <h6 class="mb-3">Tourism & Hospitality</h6>
-                <p class="mb-0">10 Vacancy</p>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- Category End -->
 
       <!-- About Start -->
@@ -678,19 +602,106 @@
 
     <!-- Template Javascript -->
     <script src="./js/main.js"></script>
-    <script>
-      document
-        .getElementById("logoutBtn")
-        .addEventListener("click", function () {
-          // Remove token and other session-related data
-          localStorage.removeItem("token");
-          localStorage.removeItem("userRole"); // optional if used
-          localStorage.removeItem("userId"); // if stored
+   <script>
+  // Logout logic
+  document.getElementById("logoutBtn")?.addEventListener("click", function () {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userId");
+    alert("Logged out successfully.");
+    window.location.href = "login.html";
+  });
 
-          // Redirect to login page
-          alert("Logged out successfully.");
-          window.location.href = "login.html";
-        });
-    </script>
-  </body>
+  const iconMap = {
+  "Agriculture": "fa-seedling",
+  "Civil Service": "fa-university",
+  "Construction & Engineering": "fa-hard-hat",
+  "Finance, Banking & Accounting": "fa-piggy-bank",
+  "Healthcare & Medical Services": "fa-user-md",
+  "ICT & Software Development": "fa-laptop-code",
+  "Teaching & Education": "fa-book-reader",
+  "Tourism & Hospitality": "fa-hotel",
+};
+
+   async function loadCategories() {
+    try {
+      const res = await fetch("http://localhost:5000/api/categories/public");
+      const categories = await res.json();
+
+      const container = document.getElementById("categoryContainer");
+      container.innerHTML = "";
+
+      const iconMap = {
+        "Agriculture": "fa-seedling",
+        "Civil Service": "fa-university",
+        "Construction & Engineering": "fa-hard-hat",
+        "Finance, Banking & Accounting": "fa-piggy-bank",
+        "Healthcare & Medical Services": "fa-user-md",
+        "ICT & Software Development": "fa-laptop-code",
+        "Teaching & Education": "fa-book-reader",
+        "Tourism & Hospitality": "fa-hotel",
+      };
+
+      categories.forEach(cat => {
+        const iconClass = iconMap[cat.name] || "fa-tags"; // fallback
+        container.innerHTML += `
+          <div class="col-lg-3 col-sm-6 wow fadeInUp">
+            <a class="cat-item rounded p-4" href="#">
+              <i class="fa fa-3x ${iconClass} text-primary mb-4"></i>
+              <h6 class="mb-3">${cat.name}</h6>
+              <p class="mb-0">0 Vacancy</p>
+            </a>
+          </div>
+        `;
+      });
+    } catch (err) {
+      console.error("Error loading categories:", err);
+    }
+  }
+
+  // Load jobs
+  async function loadJobs() {
+    try {
+      const res = await fetch("http://localhost:5000/api/jobs/public");
+      const jobs = await res.json();
+
+      const jobContainer = document.querySelector(".tab-class.text-center");
+      if (!jobContainer) return;
+
+      jobContainer.innerHTML = "";
+
+      jobs.forEach(job => {
+        const date = new Date(job.createdAt).toLocaleDateString("en-GB");
+        jobContainer.innerHTML += `
+          <div class="job-item p-4 mb-4">
+            <div class="row g-4">
+              <div class="col-md-8 d-flex align-items-center">
+                <div class="text-start ps-4">
+                  <h5 class="mb-3">${job.title}</h5>
+                  <span><i class="fa fa-map-marker-alt text-primary me-2"></i>${job.location}</span>
+                  <span><i class="far fa-clock text-primary me-2"></i>${job.type}</span>
+                  <span><i class="far fa-money-bill-alt text-primary me-2"></i>${job.salary}</span>
+                </div>
+              </div>
+              <div class="col-md-4 d-flex flex-column align-items-end justify-content-center">
+                <a class="btn btn-primary mb-3" href="job-detail.html?id=${job._id}">View Details</a>
+                <small><i class="far fa-calendar-alt text-primary me-2"></i>Posted: ${date}</small>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    } catch (err) {
+      console.error("Error loading jobs:", err);
+    }
+  }
+
+  // Load data on page load
+  document.addEventListener("DOMContentLoaded", () => {
+    loadCategories();
+    loadJobs();
+  });
+</script>
+
+
 </html>

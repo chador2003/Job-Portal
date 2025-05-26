@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Job Category - Admin</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <style>
     :root {
-      --primary: #00B074;
-      --dark: #2B3940;
-      --light: #EFFDF5;
-      --sidebar: #2B3940;
+      --primary: #00b074;
+      --dark: #2b3940;
+      --light: #effdf5;
+      --sidebar: #2b3940;
       --text-light: #fff;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: "Inter", sans-serif;
       margin: 0;
       background: var(--light);
     }
@@ -64,10 +65,11 @@
       margin-top: 30px;
       background: #fff;
       border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.05);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
     }
 
-    .category-table th, .category-table td {
+    .category-table th,
+    .category-table td {
       vertical-align: middle;
     }
 
@@ -80,8 +82,28 @@
       background-color: #019460;
       border-color: #019460;
     }
+
+    /* Optional centralized style if needed in external CSS */
+    #confirmModal .modal-header {
+      background-color: #00b074;
+    }
+
+    #confirmModal .modal-title {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    #confirmModal .btn-success {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+
+    #confirmModal .btn-outline-secondary {
+      border-color: #6c757d;
+    }
   </style>
 </head>
+
 <body>
   <div class="sidebar">
     <h4>JOB PORTAL</h4>
@@ -91,16 +113,24 @@
     </div>
     <nav class="nav flex-column">
       <a href="adminDashboard.html" class="nav-link"><i class="fas fa-chart-line me-2"></i> Dashboard</a>
-        <a href="joblist.html" class="nav-link"><i class="fas fa-layer-group me-2"></i> Job List</a>
-      <a href="jobCategory.html" class="nav-link"><i class="fas fa-layer-group me-2"></i> Job Category</a>
-      <a href="login.html" class="nav-link"><i class="fas fa-building me-2"></i> Logout</a>
+      <a href="joblist.html" class="nav-link"><i class="fas fa-layer-group me-2"></i> Job List</a>
+        <a href="jobCategory.html" class="nav-link"><i class="fas fa-tags me-2"></i> Job Category</a>
+<a href="#" class="nav-link" onclick="event.preventDefault(); showLogoutModal();">
+
+  <i class="fas fa-building me-2"></i> Logout
+</a>
+
     </nav>
   </div>
 
   <div class="content">
-    <div class="header-bar"><i class="fas fa-layer-group me-2"></i>Job Categories</div>
+    <div class="header-bar">
+      <i class="fas fa-layer-group me-2"></i>Job Categories
+    </div>
     <div class="mt-4">
-      <button class="btn btn-primary"><i class="fas fa-plus"></i> Add New Category</button>
+      <button class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add New Category
+      </button>
     </div>
     <table class="table table-bordered category-table">
       <thead class="table-light">
@@ -112,29 +142,286 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Software Development</td>
-          <td>2025-05-10</td>
-          <td>4</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Edit</button>
-            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Marketing</td>
-          <td>2025-05-12</td>
-          <td>4</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Edit</button>
-            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
-          </td>
-        </tr>
-      </tbody>
+      <tbody></tbody> <!-- ✅ THIS was missing -->
+    </table>
+
+    <script>
+
+    </script>
     </table>
   </div>
+  <!-- Add Category Modal -->
+  <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" id="categoryForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addCategoryModalLabel">
+            Add New Category
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="categoryName" class="form-label">Category Name</label>
+            <input type="text" class="form-control" id="categoryName" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Edit Category Modal -->
+  <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" id="editCategoryForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editCategoryId" />
+          <div class="mb-3">
+            <label for="editCategoryName" class="form-label">Category Name</label>
+            <input type="text" class="form-control" id="editCategoryName" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Custom Confirmation Modal -->
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0">
+        <div class="modal-header" style="background-color: #00b074;">
+          <h5 class="modal-title text-white fw-bold" id="confirmModalLabel">Confirm Action</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-dark" id="confirmModalMessage">
+          Are you sure you want to perform this action?
+        </div>
+        <div class="modal-footer justify-content-end">
+          <button id="confirmModalYesBtn" type="button" class="btn btn-success">Yes</button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Logout Confirmation Modal -->
+<div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-header" style="background-color: #00b074;">
+        <h5 class="modal-title text-white fw-bold" id="logoutConfirmLabel">Confirm Logout</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-dark">
+        Are you sure you want to logout?
+      </div>
+      <div class="modal-footer justify-content-end">
+        <button id="logoutConfirmYesBtn" type="button" class="btn btn-success">Yes, Logout</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </body>
+
+<!-- ✅ Scripts should be below everything -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const categoryModal = new bootstrap.Modal(document.getElementById("addCategoryModal"));
+  const categoryForm = document.getElementById("categoryForm");
+
+  document.querySelector(".btn.btn-primary").addEventListener("click", () => {
+    document.getElementById("categoryName").value = "";
+    categoryModal.show();
+  });
+
+  categoryForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const categoryName = document.getElementById("categoryName").value.trim();
+    if (!categoryName) return alert("Category name is required");
+
+    try {
+      const res = await fetch("/api/categories", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ name: categoryName }),
+      });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || "Failed to create category");
+      }
+
+      categoryModal.hide();
+      alert("Category created successfully");
+      loadCategories(); // ✅ refresh table
+    } catch (err) {
+      console.error("Error creating category:", err);
+      alert("Could not create category: " + err.message);
+    }
+  });
+
+  async function loadCategories() {
+    try {
+      const res = await fetch("/api/categories/with-counts", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const categories = await res.json();
+      const tbody = document.querySelector(".category-table tbody");
+      tbody.innerHTML = "";
+
+      categories.forEach((cat, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${cat.name}</td>
+        <td>${new Date(cat.createdAt).toLocaleDateString()}</td>
+        <td>${cat.totalPosts || 0}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary" onclick='openEditModal(${JSON.stringify(cat)})'>
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${cat._id}')">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </td>
+      `;
+        tbody.appendChild(row);
+      });
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadCategories();
+  });
+  const editCategoryModal = new bootstrap.Modal(document.getElementById("editCategoryModal"));
+  const deleteCategoryModal = new bootstrap.Modal(document.getElementById("deleteCategoryModal"));
+
+  document.getElementById("editCategoryForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const id = document.getElementById("editCategoryId").value;
+    const name = document.getElementById("editCategoryName").value.trim();
+
+    if (!name) return alert("Name is required");
+
+    try {
+      const res = await fetch(`/api/categories/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ name }),
+      });
+
+      if (!res.ok) throw new Error("Update failed");
+
+      editCategoryModal.hide();
+      loadCategories();
+    } catch (err) {
+      console.error("Error updating category:", err);
+      alert("Could not update category");
+    }
+  });
+
+  document.getElementById("confirmDeleteBtn").addEventListener("click", async () => {
+    const id = document.getElementById("deleteCategoryId").value;
+    try {
+      const res = await fetch(`/api/categories/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Delete failed");
+
+      deleteCategoryModal.hide();
+      loadCategories();
+    } catch (err) {
+      console.error("Error deleting category:", err);
+      alert("Could not delete category");
+    }
+  });
+
+  function openEditModal(cat) {
+    document.getElementById("editCategoryId").value = cat._id;
+    document.getElementById("editCategoryName").value = cat.name;
+    editCategoryModal.show();
+  }
+
+  function openDeleteModal(id) {
+    const message = "Are you sure you want to delete this category?";
+    const yesBtn = document.getElementById("confirmModalYesBtn");
+
+    // Reset old event listener
+    const newBtn = yesBtn.cloneNode(true);
+    yesBtn.parentNode.replaceChild(newBtn, yesBtn);
+
+    newBtn.addEventListener("click", async () => {
+      const modal = bootstrap.Modal.getInstance(document.getElementById("confirmModal"));
+      modal.hide();
+
+      try {
+        const res = await fetch(`/api/categories/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        if (!res.ok) throw new Error("Delete failed");
+
+        loadCategories(); // Refresh list
+      } catch (err) {
+        console.error("Error deleting category:", err);
+        alert("Could not delete category");
+      }
+    });
+
+    // Set message & show modal
+    document.getElementById("confirmModalMessage").textContent = message;
+    const modal = new bootstrap.Modal(document.getElementById("confirmModal"));
+    modal.show();
+  }
+  function showLogoutModal() {
+  const logoutModal = new bootstrap.Modal(document.getElementById("logoutConfirmModal"));
+  logoutModal.show();
+
+  const logoutBtn = document.getElementById("logoutConfirmYesBtn");
+
+  const newBtn = logoutBtn.cloneNode(true); // Remove any old handlers
+  logoutBtn.parentNode.replaceChild(newBtn, logoutBtn);
+
+  newBtn.addEventListener("click", () => {
+    localStorage.clear(); // Clear token/session
+    window.location.href = "login.html"; // Redirect to login
+  });
+}
+
+
+</script>
+
 </html>

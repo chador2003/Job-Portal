@@ -1,203 +1,442 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Job Poster Dashboard - JobPortal</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-     <style>
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600&display=swap");
-    body { background-color: #f4f6f9; font-family: "Poppins", sans-serif; color: #333; }
-    .navbar-custom { background-color: #1f2d3d; color: white; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
-    .navbar-custom .navbar-brand, .navbar-custom .nav-link, .navbar-custom .navbar-text { color: white; font-weight: 500; }
-    .navbar-custom .nav-link:hover { color: #4bbecf; }
-    .dashboard-wrapper { max-width: 1100px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06); }
-    .dashboard-cards { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
-    .card-box { flex: 1; min-width: 200px; background: white; color: #1f2d3d; padding: 20px; border-radius: 12px; border: 2px solid #009f73; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); text-align: center; transition: transform 0.3s, background-color 0.3s; }
-    .card-box:hover { transform: translateY(-5px); background-color: #f0fcf8; }
-    .card-box h5 { margin-bottom: 10px; font-size: 1.1rem; color: #009f73; }
-    .section-title { font-size: 1.3rem; font-weight: 600; margin-top: 40px; border-left: 5px solid #009f73; padding-left: 15px; color: #333; }
-    .btn-primary { background-color: #009f73; border-color: #009f73; padding: 8px 16px; font-weight: 500; transition: background-color 0.3s ease; }
-    .btn-primary:hover { background-color: #007f5c; border-color: #007f5c; }
-    .btn-secondary { background-color: #2b9bff; border-color: #2b9bff; padding: 6px 12px; font-weight: 500; transition: background-color 0.3s ease; }
-    .btn-outline-danger { color: #dc3545; border-color: #dc3545; transition: all 0.3s ease; }
-    .btn-outline-danger:hover { background-color: #dc3545; color: white; }
-    .btn-info { background-color: #4bbecf; border-color: #4bbecf; color: white; transition: background-color 0.3s ease; }
-    .btn-info:hover { background-color: #3db5c2; border-color: #3db5c2; }
-    .search-filter-wrapper { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center; }
-    .filter-inputs { display: flex; flex-wrap: wrap; gap: 15px; flex: 1; }
-    .post-button { margin-left: auto; }
-    .form-control, .form-select { box-shadow: none; border-radius: 8px; transition: border-color 0.3s ease; }
-    .form-control:focus, .form-select:focus { border-color: #009f73; box-shadow: 0 0 0 0.15rem rgba(0, 176, 116, 0.25); }
-    table { border-radius: 10px; overflow: hidden; }
-    table thead { background-color: #f1f5f9; }
-    table tbody tr:nth-child(odd) { background: #fafafa; }
-    table tbody tr:hover { background: #dff5ef; transition: background 0.3s ease; }
-    .badge { padding: 5px 10px; border-radius: 20px; font-size: 0.85rem; display: inline-flex; align-items: center; }
-    .badge i { margin-right: 5px; }
-    .modal .modal-header { background: #1f2d3d; color: white; border-top-left-radius: 10px; border-top-right-radius: 10px; }
-    .modal-content { border-radius: 12px; }
-    .modal .modal-footer .btn { min-width: 100px; }
-    .modal-body label { font-weight: 500; }
-    .notification { background-color: #dff5ef; color: #1f2d3d; border-left: 4px solid #009f73; padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; animation: fadeIn 0.5s ease-in-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-    @media (max-width: 768px) { .dashboard-cards { flex-direction: column; } .search-filter-wrapper { flex-direction: column; align-items: stretch; } .post-button { margin-left: 0; margin-top: 10px; align-self: flex-start; } }
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Poster Dashboard - JobPortal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: "Poppins", sans-serif;
+      color: #333;
+    }
+
+    .navbar-custom {
+      background-color: #1f2d3d;
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link,
+    .navbar-custom .navbar-text {
+      color: white;
+      font-weight: 500;
+    }
+
+    .navbar-custom .nav-link:hover {
+      color: #4bbecf;
+    }
+
+    .dashboard-wrapper {
+      max-width: 100%;
+      width: 95%;
+      margin: 40px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      overflow-x: auto;
+    }
+
+    .dashboard-cards {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .card-box {
+      flex: 1;
+      min-width: 200px;
+      background: white;
+      color: #1f2d3d;
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px solid #009f73;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card-box:hover {
+      transform: translateY(-5px);
+      background-color: #f0fcf8;
+    }
+
+    .card-box h5 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #009f73;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-top: 40px;
+      border-left: 5px solid #009f73;
+      padding-left: 15px;
+      color: #333;
+    }
+
+    .btn-primary {
+      background-color: #009f73;
+      border-color: #009f73;
+    }
+
+    .btn-primary:hover {
+      background-color: #007f5c;
+      border-color: #007f5c;
+    }
+
+    .badge {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .badge i {
+      margin-right: 5px;
+    }
+
+    /* Modal Styling */
+    .modal-title {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .job-section {
+      margin-bottom: 20px;
+      padding: 15px 20px;
+      background: #f8f9fa;
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+    }
+
+    .job-section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .job-detail-label {
+      font-weight: 600;
+      color: #444;
+    }
+
+    .job-detail-value {
+      margin-bottom: 10px;
+    }
+
+    .badge-status {
+      font-size: 0.85rem;
+      padding: 5px 12px;
+      border-radius: 10px;
+      text-transform: capitalize;
+    }
   </style>
-  </head>
-  <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-custom">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">JobPortal</a>
-        <div class="ms-auto d-flex align-items-center">
-          <span class="navbar-text me-3">
-            <i class="fas fa-user-circle me-1"></i> Welcome,
-            <strong id="userName">User</strong>
-          </span>
-          <a href="login.html" id="logoutBtn" class="btn btn-sm btn-success">Logout</a>
-        </div>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">JobPortal</a>
+      <div class="ms-auto d-flex align-items-center">
+        <span class="navbar-text me-3">
+          <i class="fas fa-user-circle me-1"></i> Welcome, <strong id="userName">User</strong>
+        </span>
+        <a href="login.html" id="logoutBtn" class="btn btn-sm btn-success">Logout</a>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <div class="dashboard-wrapper">
-      <h3 class="mb-4">Job Poster Dashboard</h3>
+  <div class="dashboard-wrapper">
+    <h3 class="mb-4">Job Poster Dashboard</h3>
 
-      <!-- Stats Cards -->
-      <div class="dashboard-cards">
-        <div class="card-box"><h5>Total Posted</h5><div id="statTotal">0</div></div>
-        <div class="card-box"><h5>Pending</h5><div id="statPending">0</div></div>
-        <div class="card-box"><h5>Approved</h5><div id="statApproved">0</div></div>
-        <div class="card-box"><h5>Rejected</h5><div id="statRejected">0</div></div>
+    <div class="dashboard-cards">
+      <div class="card-box">
+        <h5>Total Posted</h5>
+        <div id="statTotal">0</div>
       </div>
-
-      <!-- Search & Filters + Post Button -->
-      <div class="search-filter-wrapper">
-        <div class="filter-inputs">
-          <input type="text" class="form-control" id="searchInput" placeholder="Search by job title or date..." style="max-width: 300px" />
-          <select class="form-select" id="statusFilter" style="max-width: 200px">
-            <option value="">Status Filter</option>
-            <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
-            <option value="Rejected">Rejected</option>
-          </select>
-          <select class="form-select" id="dateFilter" style="max-width: 200px">
-            <option value="">Date Posted</option>
-            <option value="7">Last 7 days</option>
-            <option value="30">This month</option>
-          </select>
-        </div>
-        <button class="btn btn-primary post-button" onclick="localStorage.removeItem('editingJob'); window.location.href='jobpostForm.html';">
-          + Post New Job
-        </button>
+      <div class="card-box">
+        <h5>Pending</h5>
+        <div id="statPending">0</div>
       </div>
-
-      <!-- Active Jobs -->
-      <h5 class="section-title">Your Job Postings</h5>
-      <table class="table table-hover table-bordered">
-        <thead class="table-light">
-          <tr><th>Job Title</th><th>Status</th><th>Date Posted</th><th>Actions</th></tr>
-        </thead>
-        <tbody id="jobTableBody"></tbody>
-      </table>
+      <div class="card-box">
+        <h5>Approved</h5>
+        <div id="statApproved">0</div>
+      </div>
+      <div class="card-box">
+        <h5>Rejected</h5>
+        <div id="statRejected">0</div>
+      </div>
     </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", async () => {
+    <div class="d-flex mb-3 gap-3 flex-wrap">
+      <input type="text" class="form-control" id="searchInput" placeholder="Search by job title..."
+        style="max-width: 300px;" />
+      <select id="statusFilter">
+        <option value="all">All</option>
+        <option value="approved">Approved</option>
+        <option value="pending">Pending</option>
+        <option value="rejected">Rejected</option>
+      </select>
+
+      <select class="form-select" id="dateFilter" style="max-width: 200px;">
+        <option value="">Any Date</option>
+        <option value="7">Last 7 days</option>
+        <option value="30">This month</option>
+      </select>
+      <button class="btn btn-primary ms-auto"
+        onclick="localStorage.removeItem('editingJob'); window.location.href='jobpostForm.html';">
+        + Post New Job
+      </button>
+    </div>
+
+    <h5 class="section-title">Your Job Postings</h5>
+    <table class="table table-hover table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Date Posted</th>
+          <th>Location</th>
+          <th>Type</th>
+          <th>Vacancy</th>
+          <th>Salary</th>
+          <th>Deadline</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody id="jobTableBody"></tbody>
+    </table>
+  </div>
+  <!-- Job Detail Modal -->
+  <div class="modal fade" id="jobDetailModal" tabindex="-1" aria-labelledby="jobDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="jobDetailModalLabel">Job Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="jobDetailContent"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Logout Confirmation Modal -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to log out of your account?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirmLogoutBtn">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please login to access the dashboard.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Load user info
+      try {
+        const res = await fetch("http://localhost:5000/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        document.getElementById("userName").textContent = data.fullName;
+      } catch (err) {
+        console.warn("Failed to fetch user info");
+      }
+
+      document.getElementById("logoutBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        const modal = new bootstrap.Modal(document.getElementById("logoutModal"));
+        modal.show();
+      });
+
+      document.getElementById("confirmLogoutBtn").addEventListener("click", async () => {
         const token = localStorage.getItem("token");
-        if (!token) {
-          alert("Please login to access the dashboard.");
-          window.location.href = "login.html";
-          return;
+
+        // Optional: Inform the server to invalidate the session
+        try {
+          await fetch("http://localhost:5000/api/auth/logout", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` }
+          });
+        } catch (err) {
+          console.warn("Server-side logout skipped or failed.");
         }
 
-        try {
-          const res = await fetch("http://localhost:5000/api/auth/me", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          const data = await res.json();
-          document.getElementById("userName").textContent = data.firstName;
-        } catch {}
-
-        document.getElementById("logoutBtn").addEventListener("click", () => {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userRole");
-          window.location.href = "login.html";
-        });
-
-        const loadJobs = async () => {
-          const tbody = document.getElementById("jobTableBody");
-          tbody.innerHTML = "";
-
-          try {
-            const res = await fetch("http://localhost:5000/api/jobs/mine", {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-            const jobs = await res.json();
-
-            const statusFilter = document.getElementById("statusFilter").value;
-            const dateFilter = document.getElementById("dateFilter").value;
-            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-
-            const now = new Date();
-            const filtered = jobs.filter(job => {
-              const statusMatch = !statusFilter || job.status === statusFilter;
-              const dateMatch = !dateFilter || (now - new Date(job.createdAt)) / (1000 * 60 * 60 * 24) <= Number(dateFilter);
-              const searchMatch = !searchTerm || job.title.toLowerCase().includes(searchTerm);
-              return statusMatch && dateMatch && searchMatch;
-            });
-
-            filtered.forEach(job => {
-              const row = document.createElement("tr");
-              const statusIcon = job.status === "Approved" ? "fa-check-circle" : job.status === "Rejected" ? "fa-times-circle" : "fa-hourglass-half";
-              const statusClass = job.status === "Approved" ? "bg-success" : job.status === "Rejected" ? "bg-danger" : "bg-warning text-dark";
-              const datePosted = new Date(job.createdAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
-              row.innerHTML = `
-                <td>${job.title}</td>
-                <td><span class="badge ${statusClass}"><i class="fas ${statusIcon}"></i> ${job.status}</span></td>
-                <td>${datePosted}</td>
-                <td>
-                  <button class="btn btn-sm btn-info view-btn">View</button>
-                  <button class="btn btn-sm btn-secondary edit-btn">Edit</button>
-                  <button class="btn btn-sm btn-outline-danger delete-btn">Delete</button>
-                </td>`;
-              row.querySelector(".view-btn").onclick = () => { localStorage.setItem("selectedJob", JSON.stringify(job)); window.location.href = "job-detail.html"; };
-              row.querySelector(".edit-btn").onclick = () => { localStorage.setItem("editingJob", JSON.stringify(job)); window.location.href = "jobpostForm.html"; };
-              row.querySelector(".delete-btn").onclick = async () => {
-                if (confirm("Are you sure you want to delete this job?")) {
-                  await fetch(`http://localhost:5000/api/jobs/${job._id}`, {
-                    method: "DELETE",
-                    headers: { Authorization: `Bearer ${token}` },
-                  });
-                  loadJobs();
-                }
-              };
-              tbody.appendChild(row);
-            });
-          } catch (err) {
-            console.error("Failed to load jobs", err);
-          }
-        };
-
-        document.getElementById("searchInput").addEventListener("input", loadJobs);
-        document.getElementById("statusFilter").addEventListener("change", loadJobs);
-        document.getElementById("dateFilter").addEventListener("change", loadJobs);
-
-        // Load stats
-        try {
-          const res = await fetch("http://localhost:5000/api/jobs/stats", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          const stats = await res.json();
-          document.getElementById("statTotal").textContent = stats.total || 0;
-          document.getElementById("statPending").textContent = stats.pending || 0;
-          document.getElementById("statApproved").textContent = stats.approved || 0;
-          document.getElementById("statRejected").textContent = stats.rejected || 0;
-        } catch {}
-
-        loadJobs();
+        localStorage.clear();
+        window.location.href = "login.html";
       });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+
+
+      const statusMap = {
+        approved: { icon: "fa-circle-check", badge: "bg-success" },
+        pending: { icon: "fa-clock", badge: "bg-warning text-dark" },
+        rejected: { icon: "fa-circle-xmark", badge: "bg-danger" },
+      };
+
+
+      async function loadJobs() {
+        const tbody = document.getElementById("jobTableBody");
+        tbody.innerHTML = "";
+
+        try {
+          const res = await fetch("http://localhost:5000/api/jobs/mine", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const jobs = await res.json();
+
+          const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+          const statusFilterRaw = document.getElementById("statusFilter").value;
+          const statusFilter = statusFilterRaw.toLowerCase();
+          const dateFilter = parseInt(document.getElementById("dateFilter").value);
+          const now = new Date();
+
+          const filtered = jobs.filter(job => {
+            const jobStatus = (job.status || "").toLowerCase();
+            const matchStatus = !statusFilter || statusFilter === "all" || jobStatus === statusFilter;
+            const matchText = job.title.toLowerCase().includes(searchTerm);
+            const matchDate = !dateFilter || (now - new Date(job.createdAt)) / (1000 * 60 * 60 * 24) <= dateFilter;
+            return matchStatus && matchText && matchDate;
+          });
+
+
+          filtered.forEach(job => {
+            const normalizedStatus = job.status.toLowerCase();
+            const status = statusMap[normalizedStatus] || { icon: "fa-question", badge: "bg-secondary" };
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+  <td>${job.title}</td>
+  <td><span class="badge ${status.badge}"><i class="fas ${status.icon}"></i> ${job.status}</span></td>
+  <td>${new Date(job.createdAt).toLocaleDateString("en-GB")}</td>
+  <td>${job.location}</td>
+  <td>${job.type}</td>
+  <td>${job.vacancy}</td>
+  <td>${job.salary || "N/A"}</td>
+  <td>${job.deadline ? new Date(job.deadline).toLocaleDateString("en-GB") : "N/A"}</td>
+  <td>
+    <button class="btn btn-sm btn-info view-btn">View</button>
+    <button class="btn btn-sm btn-secondary edit-btn" ${job.status === 'approved' ? 'disabled' : ''}>Edit</button>
+    <button class="btn btn-sm btn-outline-danger delete-btn">Delete</button>
+  </td>
+`;
+
+
+            row.querySelector(".view-btn").onclick = () => {
+              showJobDetails(job); // replaces redirect
+            };
+            row.querySelector(".edit-btn").onclick = () => {
+              localStorage.setItem("editingJob", JSON.stringify(job));
+              window.location.href = "jobpostForm.html";
+            };
+            row.querySelector(".delete-btn").onclick = async () => {
+              if (confirm("Are you sure you want to delete this job?")) {
+                await fetch(`http://localhost:5000/api/jobs/${job._id}`, {
+                  method: "DELETE",
+                  headers: { Authorization: `Bearer ${token}` },
+                });
+                loadJobs();
+              }
+            };
+            tbody.appendChild(row);
+          });
+
+        } catch (err) {
+          console.error("Error loading jobs:", err);
+        }
+      }
+
+      // Load stats
+      try {
+        const res = await fetch("http://localhost:5000/api/jobs/stats", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const stats = await res.json();
+        document.getElementById("statTotal").textContent = stats.total || 0;
+        document.getElementById("statPending").textContent = stats.pending || 0;
+        document.getElementById("statApproved").textContent = stats.approved || 0;
+        document.getElementById("statRejected").textContent = stats.rejected || 0;
+      } catch { }
+
+      // Filters
+      document.getElementById("searchInput").addEventListener("input", loadJobs);
+      document.getElementById("statusFilter").addEventListener("change", loadJobs);
+      document.getElementById("dateFilter").addEventListener("change", loadJobs);
+
+      loadJobs();
+    });
+    function showJobDetails(job) {
+      const modalBody = document.getElementById("jobDetailContent");
+
+      modalBody.innerHTML = `
+    <div class="job-section">
+      <div class="job-section-title">${job.title}</div>
+      <p><span class="job-detail-label">Company:</span> <span class="job-detail-value">${job.company || "N/A"}</span></p>
+      <p><span class="job-detail-label">Location:</span> <span class="job-detail-value">${job.location}</span></p>
+      <p><span class="job-detail-label">Type:</span> <span class="job-detail-value">${job.type}</span></p>
+      <p><span class="job-detail-label">Status:</span> 
+        <span class="badge-status bg-${job.status === 'approved' ? 'success' : job.status === 'pending' ? 'warning text-dark' : 'danger'}">
+          ${job.status}
+        </span>
+      </p>
+      <p><span class="job-detail-label">Salary:</span> <span class="job-detail-value">${job.salary}</span></p>
+      <p><span class="job-detail-label">Posted:</span> <span class="job-detail-value">${new Date(job.createdAt).toLocaleDateString("en-GB")}</span></p>
+      ${job.deadline ? `<p><span class="job-detail-label">Deadline:</span> <span class="job-detail-value">${new Date(job.deadline).toLocaleDateString("en-GB")}</span></p>` : ""}
+    </div>
+
+    <div class="job-section">
+      <div class="job-section-title">Job Description</div>
+      <p class="job-detail-value">${job.description || "No description provided."}</p>
+    </div>
+
+    <div class="job-section">
+      <div class="job-section-title">Requirements</div>
+      <p class="job-detail-value">${job.requirements || "Not specified."}</p>
+    </div>
+
+    ${job.howToApply ? `
+      <div class="job-section">
+        <div class="job-section-title">How to Apply</div>
+        <p class="job-detail-value">${job.howToApply}</p>
+      </div>` : ""}
+  `;
+
+      const modal = new bootstrap.Modal(document.getElementById("jobDetailModal"));
+      modal.show();
+    }
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>
