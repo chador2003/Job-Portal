@@ -1,58 +1,55 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
 const cors = require('cors');
-const app = express();
 
 dotenv.config();
 
-// Import routers
-const { authRouter } = require('./routes/auth');
+const app = express();
+
+// 🔧 Middleware
+app.use(express.json());  // Parse JSON request bodies
+app.use(cors());          // Enable Cross-Origin Resource Sharing
+// 📦 Routes
+
+
+const authRouter = require('./routes/auth');
 const jobRoutes = require('./routes/jobRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+const feedbackRoutes = require('./routes/feedback');
 
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use("/api/jobs", require("./routes/jobRoutes"));
-
-// Optional middleware placeholder (no logging)
-app.use((req, res, next) => {
-  next();
-});
-
-
-// ✅ API Routes – move ABOVE static middleware
 app.use('/api/auth', authRouter);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
-// ✅ Serve static files (frontend HTML/CSS/JS)
+// 🌐 Static File Serving
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Default route for root
+// SPA Fallback
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Fallback for undefined API routes
+// Handle undefined API routes
 app.use((req, res) => {
-  res.status(404).json({ message: "Endpoint not found" });
+  res.status(404).json({ message: 'Endpoint not found' });
 });
 
-// MongoDB
+// 🔌 MongoDB Connection
+
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(() => {
-  console.log('✅ MongoDB Connected');
-}).catch(err => {
-  console.error('❌ MongoDB Connection Error:', err.message);
-});
+})
+.then(() => console.log('✅ MongoDB Connected'))
+.catch(err => console.error('❌ MongoDB Connection Error:', err.message));
 
-// Start server
+// 🚀 Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);

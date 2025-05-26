@@ -1,4 +1,7 @@
-const express = require("express")
-const app  = express()
+const express = require('express');
+const cors = require('cors');
 
-module.exports  = app
+const app = express();
+app.use(cors()); // ✅ Correct placement
+
+// Other app.use and route setups
