@@ -1,35 +1,29 @@
+// routes/jobRoutes.js
+
 const express = require("express");
 const router = express.Router();
 const jobController = require("../controllers/jobController");
-const authenticate = require("../middleware/auth");
+const { protect, isAdmin } = require("../middleware/authMiddleware");
 
-// Create job
-router.post("/", authenticate, jobController.createJob);
+// ✅ Public Routes (No Auth)
 
-// Get jobs posted by the current user
-router.get("/mine", authenticate, jobController.getJobsByUser);
+router.get("/public", jobController.getPublicJobs);          // Get all approved jobs
+router.get("/filters", jobController.getFilters);            // Get job filter values (categories, locations)
 
-// Get stats for the current user
-router.get("/stats", authenticate, jobController.getJobStatsByUser);
+// ✅ Authenticated User Routes
 
-// Update job
-router.put("/:id", authenticate, jobController.updateJob);
+router.post("/", protect, jobController.createJob);                  // Create a job
+router.get("/mine", protect, jobController.getJobsByUser);           // Get jobs posted by the current user
+router.get("/stats", protect, jobController.getJobStatsByUser);      // Get job stats for the current user
+router.put("/:id", protect, jobController.updateJob);                // Update a job by ID
+router.delete("/:id", protect, jobController.deleteJob);             // Delete a job by ID
 
-// Delete job
-router.delete("/:id", authenticate, jobController.deleteJob);
+// ✅ Admin-Only Routes
 
-// Optional: get recent jobs (already present)
-router.get("/recent", authenticate, async (req, res) => {
-  try {
-    const jobs = await Job.find()
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .populate("postedBy", "email");
-    res.json(jobs);
-  } catch (err) {
-    console.error("❌ Error fetching jobs:", err.message);
-    res.status(500).json({ message: "Server error" });
-  }
-});
+router.get("/recent", protect, isAdmin, jobController.getRecentJobs);             // Get recent jobs
+router.put("/:jobId/status", protect, isAdmin, jobController.updateJobStatus);    // Approve or reject a job
 
+// ✅ General Route (Last)
+
+router.get("/:id", protect, isAdmin, jobController.getJobById);       // Get a job by ID (Admin access)
 module.exports = router;
