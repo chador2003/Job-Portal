@@ -508,3 +508,42 @@
   font-weight: 600;
 }
 
+.btn-gradient {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    transition: all 0.3s ease;
+  }
+
+  .btn-gradient:hover {
+    background: linear-gradient(135deg, #00cec9, #00b894);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 206, 201, 0.3);
+    text-decoration: none;
+  }
+
+.job-section {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-left: 4px solid #00b074;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.job-section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2b3940;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 6px;
+}
+
+.job-detail-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.job-detail-value {
+  color: #555;
+  margin-bottom: 12px;
+}
